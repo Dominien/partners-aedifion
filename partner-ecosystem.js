@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const allPartnersLink = document.querySelector('.category-link.current') || 
                           Array.from(document.querySelectorAll('.category-link')).find(link => 
                              link.textContent.trim() === 'All partners' || 
-                             link.textContent.trim() === 'Alle Partner'
+                             link.textContent.trim() === 'Alle Partner' || 
+                             link.textContent.trim() === 'Tous les partenaires'
                           );
   // Get all other category links
   const categoryLinks = document.querySelectorAll('.category-link:not(.current)');
@@ -32,7 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Also handle "All partners" links that might not have the current class initially
   document.querySelectorAll('.category-link').forEach(link => {
-    if (link.textContent.trim() === 'All partners' || link.textContent.trim() === 'Alle Partner') {
+    const txt = link.textContent.trim();
+    if (txt === 'All partners' || txt === 'Alle Partner' || txt === 'Tous les partenaires') {
       link.addEventListener('click', handleAllPartnersClick);
     }
   });
@@ -84,7 +86,18 @@ document.addEventListener('DOMContentLoaded', function() {
         "Technisches-Monitoring-Software": "Technical Monitoring Software",
         "Aktive-Betriebsoptimierung-Software": "Active Operational Optimization Software",
         "Workspace Apps / Smart Building": "Workspace Apps / Smart Building",
-        "Technische Gebäudeausrüstung": "Technical Building Equipment"
+        "Technische Gebäudeausrüstung": "Technical Building Equipment",
+        // French mappings
+        "gestion des actifs et des biens": "Asset Property Management",
+        "Gestion des installations/CAFM": "Facility Management / CAFM",
+        "Compteurs/sous-compteurs intelligents": "Smart Metering / Submetering",
+        "Équipement technique du bâtiment": "Technical Building Equipment",
+        "Partenaires de conseil, de planification et de mise en œuvre": "Consulting, Planning, and Implementation Partner",
+        "Normes et certification": "Standards and Certification",
+        "Logiciel ESG": "ESG Software",
+        "Logiciel de surveillance technique": "Technical Monitoring Software",
+        "Logiciel d'optimisation opérationnelle active": "Active Operational Optimization Software",
+        "Applications pour l'espace de travail/Bâtiment intelligent": "Workspace Apps / Smart Building"
       };
       
       // Use the text from the mapping if available, otherwise use the option text
@@ -216,11 +229,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add current class to selected link
     if (categoryName === 'all') {
-      // Find any "All partners" link in either language
-      const allPartnerLinks = Array.from(document.querySelectorAll('.category-link')).filter(link => 
-        link.textContent.trim() === 'All partners' || 
-        link.textContent.trim() === 'Alle Partner'
-      );
+      // Find any "All partners" link in supported languages
+      const allPartnerLinks = Array.from(document.querySelectorAll('.category-link')).filter(link => {
+        const t = link.textContent.trim();
+        return t === 'All partners' || t === 'Alle Partner' || t === 'Tous les partenaires';
+      });
       
       if (allPartnerLinks.length > 0) {
         allPartnerLinks.forEach(link => link.classList.add('current'));
@@ -230,16 +243,89 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       // Find matching category in both languages with all possible variations
       const categoryMap = {
-        "Asset Property Management": ["Asset Property Management", "Asset-Property-Management", "Asset and real estate management", "Asset- und Immobilienverwaltung"],
-        "Facility Management / CAFM": ["Facility Management / CAFM", "Facility-Management / CAFM", "Facility Management/CAFM", "Facility Management"],
-        "Smart Metering / Submetering": ["Smart Metering / Submetering", "Smart metering/undermeasurement", "Smart Metering / Untermessung"],
-        "Technical Building Equipment": ["Technical Building Equipment", "Technische Gebäudeausrüstung", "Technical building equipment"],
-        "Consulting, Planning, and Implementation Partner": ["Consulting, Planning, and Implementation Partner", "Beratungs-, Planungs- und Umsetzungspartner", "Consulting & implementation", "Beratung & Implementierung"],
-        "Standards and Certification": ["Standards and Certification", "Standards und Zertifizierung", "Standards and certification"],
-        "ESG Software": ["ESG Software", "ESG-Software", "ESG software"],
-        "Technical Monitoring Software": ["Technical Monitoring Software", "Technisches-Monitoring-Software", "Technical monitoring software", "Technische Überwachungssoftware"],
-        "Active Operational Optimization Software": ["Active Operational Optimization Software", "Aktive-Betriebsoptimierung-Software", "Operational optimization", "Betriebliche Optimierung"],
-        "Workspace Apps / Smart Building": ["Workspace Apps / Smart Building", "Workspace apps/smart building", "Workspace-Apps/Smart Building"]
+        "Asset Property Management": [
+          "Asset Property Management",
+          "Asset-Property-Management",
+          "Asset and real estate management",
+          "Asset- und Immobilienverwaltung",
+          // French
+          "gestion des actifs et des biens",
+          "Gestion des actifs et des biens"
+        ],
+        "Facility Management / CAFM": [
+          "Facility Management / CAFM",
+          "Facility-Management / CAFM",
+          "Facility Management/CAFM",
+          "Facility Management",
+          // French
+          "Gestion des installations/CAFM"
+        ],
+        "Smart Metering / Submetering": [
+          "Smart Metering / Submetering",
+          "Smart metering/undermeasurement",
+          "Smart Metering / Untermessung",
+          // French
+          "Compteurs/sous-compteurs intelligents"
+        ],
+        "Technical Building Equipment": [
+          "Technical Building Equipment",
+          "Technische Gebäudeausrüstung",
+          "Technical building equipment",
+          // French
+          "Équipement technique du bâtiment",
+          "équipement technique du bâtiment"
+        ],
+        "Consulting, Planning, and Implementation Partner": [
+          "Consulting, Planning, and Implementation Partner",
+          "Beratungs-, Planungs- und Umsetzungspartner",
+          "Consulting & implementation",
+          "Beratung & Implementierung",
+          // French
+          "Partenaires de conseil, de planification et de mise en œuvre",
+          "partenaires de conseil, de planification et de mise en œuvre"
+        ],
+        "Standards and Certification": [
+          "Standards and Certification",
+          "Standards und Zertifizierung",
+          "Standards and certification",
+          // French
+          "Normes et certification",
+          "normes et certification"
+        ],
+        "ESG Software": [
+          "ESG Software",
+          "ESG-Software",
+          "ESG software",
+          // French
+          "Logiciel ESG",
+          "logiciel ESG"
+        ],
+        "Technical Monitoring Software": [
+          "Technical Monitoring Software",
+          "Technisches-Monitoring-Software",
+          "Technical monitoring software",
+          "Technische Überwachungssoftware",
+          // French
+          "Logiciel de surveillance technique",
+          "logiciel de surveillance technique"
+        ],
+        "Active Operational Optimization Software": [
+          "Active Operational Optimization Software",
+          "Aktive-Betriebsoptimierung-Software",
+          "Operational optimization",
+          "Betriebliche Optimierung",
+          // French
+          "Logiciel d'optimisation opérationnelle active",
+          "logiciel d'optimisation opérationnelle active"
+        ],
+        "Workspace Apps / Smart Building": [
+          "Workspace Apps / Smart Building",
+          "Workspace apps/smart building",
+          "Workspace-Apps/Smart Building",
+          // French
+          "Applications pour l'espace de travail/Bâtiment intelligent",
+          "applications pour l'espace de travail/Bâtiment intelligent"
+        ]
       };
       
       // Find matching category variants
@@ -292,16 +378,89 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Create a comprehensive mapping of category equivalents in both languages
       const categoryEquivalents = {
-        "Asset Property Management": ["Asset Property Management", "Asset-Property-Management", "Asset and real estate management", "Asset- und Immobilienverwaltung"],
-        "Facility Management / CAFM": ["Facility Management / CAFM", "Facility-Management / CAFM", "Facility Management/CAFM", "Facility Management"],
-        "Smart Metering / Submetering": ["Smart Metering / Submetering", "Smart metering/undermeasurement", "Smart Metering / Untermessung"],
-        "Technical Building Equipment": ["Technical Building Equipment", "Technische Gebäudeausrüstung", "Technical building equipment"],
-        "Consulting, Planning, and Implementation Partner": ["Consulting, Planning, and Implementation Partner", "Beratungs-, Planungs- und Umsetzungspartner", "Consulting & implementation", "Beratung & Implementierung"],
-        "Standards and Certification": ["Standards and Certification", "Standards und Zertifizierung", "Standards and certification"],
-        "ESG Software": ["ESG Software", "ESG-Software", "ESG software"],
-        "Technical Monitoring Software": ["Technical Monitoring Software", "Technisches-Monitoring-Software", "Technical monitoring software", "Technische Überwachungssoftware"],
-        "Active Operational Optimization Software": ["Active Operational Optimization Software", "Aktive-Betriebsoptimierung-Software", "Operational optimization", "Betriebliche Optimierung"],
-        "Workspace Apps / Smart Building": ["Workspace Apps / Smart Building", "Workspace apps/smart building", "Workspace-Apps/Smart Building"]
+        "Asset Property Management": [
+          "Asset Property Management",
+          "Asset-Property-Management",
+          "Asset and real estate management",
+          "Asset- und Immobilienverwaltung",
+          // French
+          "gestion des actifs et des biens",
+          "Gestion des actifs et des biens"
+        ],
+        "Facility Management / CAFM": [
+          "Facility Management / CAFM",
+          "Facility-Management / CAFM",
+          "Facility Management/CAFM",
+          "Facility Management",
+          // French
+          "Gestion des installations/CAFM"
+        ],
+        "Smart Metering / Submetering": [
+          "Smart Metering / Submetering",
+          "Smart metering/undermeasurement",
+          "Smart Metering / Untermessung",
+          // French
+          "Compteurs/sous-compteurs intelligents"
+        ],
+        "Technical Building Equipment": [
+          "Technical Building Equipment",
+          "Technische Gebäudeausrüstung",
+          "Technical building equipment",
+          // French
+          "Équipement technique du bâtiment",
+          "équipement technique du bâtiment"
+        ],
+        "Consulting, Planning, and Implementation Partner": [
+          "Consulting, Planning, and Implementation Partner",
+          "Beratungs-, Planungs- und Umsetzungspartner",
+          "Consulting & implementation",
+          "Beratung & Implementierung",
+          // French
+          "Partenaires de conseil, de planification et de mise en œuvre",
+          "partenaires de conseil, de planification et de mise en œuvre"
+        ],
+        "Standards and Certification": [
+          "Standards and Certification",
+          "Standards und Zertifizierung",
+          "Standards and certification",
+          // French
+          "Normes et certification",
+          "normes et certification"
+        ],
+        "ESG Software": [
+          "ESG Software",
+          "ESG-Software",
+          "ESG software",
+          // French
+          "Logiciel ESG",
+          "logiciel ESG"
+        ],
+        "Technical Monitoring Software": [
+          "Technical Monitoring Software",
+          "Technisches-Monitoring-Software",
+          "Technical monitoring software",
+          "Technische Überwachungssoftware",
+          // French
+          "Logiciel de surveillance technique",
+          "logiciel de surveillance technique"
+        ],
+        "Active Operational Optimization Software": [
+          "Active Operational Optimization Software",
+          "Aktive-Betriebsoptimierung-Software",
+          "Operational optimization",
+          "Betriebliche Optimierung",
+          // French
+          "Logiciel d'optimisation opérationnelle active",
+          "logiciel d'optimisation opérationnelle active"
+        ],
+        "Workspace Apps / Smart Building": [
+          "Workspace Apps / Smart Building",
+          "Workspace apps/smart building",
+          "Workspace-Apps/Smart Building",
+          // French
+          "Applications pour l'espace de travail/Bâtiment intelligent",
+          "applications pour l'espace de travail/Bâtiment intelligent"
+        ]
       };
       
       // Find all equivalent categories for the current category
@@ -371,17 +530,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const message = document.createElement('div');
         message.className = 'no-results-message';
         
-        // Check language to use correct message
-        const isEnglish = document.querySelector('h2.text-center-no-margins')?.textContent.trim().toLowerCase().includes('aedifion partner ecosystem');
+        // Determine language: English, French, or default (German)
+        const path = window.location.pathname.toLowerCase();
+        const h2Text = document.querySelector('h2.text-center-no-margins')?.textContent.trim().toLowerCase() || '';
+        const isFrench = path.includes('/fr') || h2Text.includes('partenaire');
+        const isEnglish = path.includes('/en') || h2Text.includes('partner ecosystem');
         
         if (isEnglish) {
+          // English message
           message.innerHTML = `
             <div class="text-center py-16">
               <p class="text-gray-500 text-lg">No partners found matching your criteria.</p>
               <button class="reset-button">Reset Filters</button>
             </div>
           `;
+        } else if (isFrench) {
+          // French message
+          message.innerHTML = `
+            <div class="text-center py-16">
+              <p class="text-gray-500 text-lg">Aucun partenaire ne correspond à vos critères.</p>
+              <button class="reset-button">Réinitialiser les filtres</button>
+            </div>
+          `;
         } else {
+          // German message
           message.innerHTML = `
             <div class="text-center py-16">
               <p class="text-gray-500 text-lg">Keine Partner gefunden, die Ihren Kriterien entsprechen.</p>
